@@ -7,12 +7,14 @@ app.get('/', (req, res) => {
   res.send('Server KIBOBoss Aktif!');
 });
 
-// Endpoint untuk melayani file json langsung lewat kode
+// Endpoint untuk file json dengan menambahkan data tanggal yang valid (misal tahun 2030)
 app.get('/users/kibo.json', (req, res) => {
   res.json({
     username: "kibo",
     password: "kibboss",
-    status: "active"
+    status: "active",
+    expired: "2030-12-31",
+    date: "2026-01-01"
   });
 });
 
