@@ -9,11 +9,13 @@ app.get('/', (req, res) => {
 
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
-  if (username === 'admin' && password === '12345') {
+  
+  // Mengubah data login sesuai permintaan Anda
+  if (username === 'kibo' && password === 'kibboss') {
     return res.json({ status: true, message: 'Login Berhasil!' });
   }
+  
   res.status(401).json({ status: false, message: 'Username atau Password salah!' });
 });
 
 module.exports = app;
-
