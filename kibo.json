@@ -1,4 +1,7 @@
-{
-  "username": "kibo",
-  "status": "active"
-}
+[
+  {
+    "username": "kibo",
+    "password": "kibboss",
+    "status": "active"
+  }
+]
