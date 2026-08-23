@@ -3,82 +3,163 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIBoss</title>
+
+  <title>BOSS Keyzo</title>
 
   <style>
     * {
       box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
       background: #0f172a;
-      color: white;
+      color: #fff;
     }
 
-    .container {
-      width: 92%;
-      max-width: 1100px;
-      margin: 50px auto;
-    }
-
-    .card {
-      background: #1e293b;
-      border-radius: 24px;
-      padding: 35px;
-      box-shadow: 0 15px 40px rgba(0,0,0,.25);
-    }
-
-    h1 {
-      margin-top: 0;
-      font-size: 42px;
-    }
-
-    h2 {
-      margin-top: 0;
+    button,
+    input {
+      font: inherit;
     }
 
     .hidden {
       display: none !important;
     }
 
-    input {
+    /* =========================
+       LOGIN
+    ========================= */
+
+    #loginPage {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-box {
       width: 100%;
-      padding: 18px;
-      margin: 10px 0;
-      border: 0;
-      border-radius: 14px;
-      background: #3b465c;
+      max-width: 430px;
+      background: #1e293b;
+      padding: 35px;
+      border-radius: 22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo h1 {
+      margin: 0;
+      font-size: 38px;
+    }
+
+    .logo p {
+      color: #94a3b8;
+      margin-top: 8px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 16px;
+      margin-bottom: 15px;
+      border: 1px solid #475569;
+      border-radius: 12px;
+      background: #0f172a;
       color: white;
-      font-size: 18px;
       outline: none;
     }
 
-    button {
+    .login-box input:focus {
+      border-color: #6366f1;
+    }
+
+    .primary-btn {
       width: 100%;
-      padding: 18px;
-      margin-top: 15px;
+      padding: 16px;
       border: 0;
-      border-radius: 14px;
+      border-radius: 12px;
       background: #6366f1;
       color: white;
-      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    button:hover {
+    .primary-btn:hover {
       background: #4f46e5;
     }
 
-    .message {
-      margin-top: 20px;
+    #loginMessage {
       text-align: center;
-      font-size: 18px;
+      margin-top: 15px;
+      color: #fca5a5;
     }
 
-    .dashboard-header {
+
+    /* =========================
+       DASHBOARD
+    ========================= */
+
+    #dashboardPage {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      background: #111827;
+      border-right: 1px solid #334155;
+      padding: 25px 18px;
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: bold;
+      padding: 10px 12px 30px;
+    }
+
+    .brand span {
+      color: #818cf8;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-item {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      color: #cbd5e1;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: #1e293b;
+      color: white;
+    }
+
+    .main {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 30px;
+    }
+
+    .topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -86,65 +167,246 @@
       margin-bottom: 30px;
     }
 
-    .logout {
-      width: auto;
-      min-width: 130px;
+    .topbar h1 {
       margin: 0;
+      font-size: 32px;
     }
 
-    .welcome {
-      font-size: 20px;
-      color: #cbd5e1;
-      margin-bottom: 30px;
+    .topbar p {
+      color: #94a3b8;
+      margin: 8px 0 0;
     }
 
-    .grid {
+    .logout-btn {
+      padding: 12px 20px;
+      border: 0;
+      border-radius: 10px;
+      background: #dc2626;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background: #b91c1c;
+    }
+
+
+    /* =========================
+       STATISTICS
+    ========================= */
+
+    .stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .stat-card .icon {
+      font-size: 27px;
+      margin-bottom: 15px;
+    }
+
+    .stat-card h3 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .stat-card p {
+      margin: 7px 0 0;
+      color: #94a3b8;
+    }
+
+
+    /* =========================
+       CONTENT GRID
+    ========================= */
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
       gap: 20px;
     }
 
-    .menu-card {
-      background: #273449;
+    .panel {
+      background: #1e293b;
+      border: 1px solid #334155;
       border-radius: 18px;
       padding: 25px;
-      min-height: 150px;
     }
 
-    .menu-card h3 {
+    .panel h2 {
       margin-top: 0;
-      font-size: 22px;
     }
 
-    .menu-card p {
-      color: #cbd5e1;
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .feature {
+      padding: 20px;
+      border-radius: 14px;
+      background: #273449;
+      cursor: pointer;
+    }
+
+    .feature:hover {
+      background: #334155;
+    }
+
+    .feature-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .feature h3 {
+      margin: 0 0 8px;
+    }
+
+    .feature p {
+      margin: 0;
+      color: #94a3b8;
+      font-size: 14px;
       line-height: 1.5;
     }
 
-    @media (max-width: 700px) {
-      .container {
-        margin: 25px auto;
+
+    /* =========================
+       PROFILE
+    ========================= */
+
+    .profile {
+      text-align: center;
+    }
+
+    .avatar {
+      width: 85px;
+      height: 85px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      background: #6366f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 35px;
+      font-weight: bold;
+    }
+
+    .profile h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .profile p {
+      color: #94a3b8;
+    }
+
+    .profile-status {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 7px 14px;
+      border-radius: 20px;
+      background: #14532d;
+      color: #86efac;
+      font-size: 13px;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+      .sidebar {
+        width: 210px;
       }
 
-      .card {
-        padding: 25px;
+      .main {
+        margin-left: 210px;
+        width: calc(100% - 210px);
       }
 
-      .dashboard-header {
-        flex-direction: column;
-        align-items: stretch;
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .logout {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    @media (max-width: 650px) {
+
+      #dashboardPage {
+        display: block;
+      }
+
+      .sidebar {
+        position: relative;
         width: 100%;
+        min-height: auto;
+        padding: 15px;
       }
 
-      .grid {
+      .brand {
+        padding: 5px 10px 15px;
+      }
+
+      .nav-menu {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+
+      .nav-item {
+        min-width: 120px;
+        text-align: center;
+      }
+
+      .main {
+        margin-left: 0;
+        width: 100%;
+        padding: 18px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+
+      .topbar h1 {
+        font-size: 25px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-card h3 {
+        font-size: 23px;
+      }
+
+      .features {
         grid-template-columns: 1fr;
       }
 
-      h1 {
-        font-size: 34px;
+      .logout-btn {
+        padding: 10px 14px;
       }
     }
   </style>
@@ -152,11 +414,18 @@
 
 <body>
 
-  <div class="container">
+  <!-- ==================================================
+       LOGIN
+  ================================================== -->
 
-    <!-- LOGIN -->
-    <div id="loginPage" class="card">
-      <h1>KIBoss Login</h1>
+  <section id="loginPage">
+
+    <div class="login-box">
+
+      <div class="logo">
+        <h1>BOSS Keyzo</h1>
+        <p>Login ke panel administrator</p>
+      </div>
 
       <input
         id="username"
@@ -172,56 +441,622 @@
         autocomplete="current-password"
       >
 
-      <button id="loginButton">Login</button>
+      <button
+        id="loginButton"
+        class="primary-btn"
+      >
+        Login
+      </button>
 
-      <div id="loginMessage" class="message"></div>
+      <div id="loginMessage"></div>
+
     </div>
 
+  </section>
 
-    <!-- DASHBOARD -->
-    <div id="dashboardPage" class="card hidden">
 
-      <div class="dashboard-header">
+  <!-- ==================================================
+       DASHBOARD
+  ================================================== -->
+
+  <section id="dashboardPage" class="hidden">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        BOSS <span>Keyzo</span>
+      </div>
+
+      <nav class="nav-menu">
+
+        <button
+          class="nav-item active"
+          data-section="dashboard"
+        >
+          🏠 Dashboard
+        </button>
+
+        <button
+          class="nav-item"
+          data-section="features"
+        >
+          ⚡ Fitur
+        </button>
+
+        <button
+          class="nav-item"
+          data-section="profile"
+        >
+          👤 Profil
+        </button>
+
+        <button
+          class="nav-item"
+          data-section="settings"
+        >
+          ⚙️ Pengaturan
+        </button>
+
+      </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+      <div class="topbar">
+
         <div>
-          <h1>Dashboard</h1>
-          <div id="welcomeText" class="welcome"></div>
+          <h1 id="pageTitle">
+            BOSS Keyzo
+          </h1>
+
+          <p id="welcomeText">
+            Selamat datang.
+          </p>
         </div>
 
-        <button id="logoutButton" class="logout">
+        <button
+          id="logoutButton"
+          class="logout-btn"
+        >
           Logout
         </button>
-      </div>
-
-      <div class="grid">
-
-        <div class="menu-card">
-          <h3>📊 Overview</h3>
-          <p>
-            Ringkasan aktivitas KIBoss akan ditampilkan di sini.
-          </p>
-        </div>
-
-        <div class="menu-card">
-          <h3>👤 Account</h3>
-          <p>
-            Informasi akun pengguna yang sedang login.
-          </p>
-        </div>
-
-        <div class="menu-card">
-          <h3>⚙️ Settings</h3>
-          <p>
-            Pengaturan aplikasi KIBoss.
-          </p>
-        </div>
 
       </div>
 
-    </div>
 
-  </div>
+      <!-- DASHBOARD SECTION -->
 
-  <script src="index.js"></script>
+      <div id="dashboardSection">
+
+        <div class="stats">
+
+          <div class="stat-card">
+            <div class="icon">👤</div>
+            <h3>1</h3>
+            <p>User Aktif</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="icon">🟢</div>
+            <h3>Online</h3>
+            <p>Status Sistem</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="icon">🔐</div>
+            <h3>Aktif</h3>
+            <p>Authentication</p>
+          </div>
+
+          <div class="stat-card">
+            <div class="icon">⚡</div>
+            <h3>Ready</h3>
+            <p>KIBoss System</p>
+          </div>
+
+        </div>
+
+
+        <div class="content-grid">
+
+          <div class="panel">
+
+            <h2>Fitur BOSS Keyzo</h2>
+
+            <div class="features">
+
+              <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>Analytics</h3>
+                <p>
+                  Lihat statistik dan aktivitas sistem.
+                </p>
+              </div>
+
+              <div class="feature">
+                <div class="feature-icon">👥</div>
+                <h3>Users</h3>
+                <p>
+                  Kelola pengguna BOSS Keyzo.
+                </p>
+              </div>
+
+              <div class="feature">
+                <div class="feature-icon">📁</div>
+                <h3>Data</h3>
+                <p>
+                  Kelola data dan informasi aplikasi.
+                </p>
+              </div>
+
+              <div class="feature">
+                <div class="feature-icon">⚙️</div>
+                <h3>Settings</h3>
+                <p>
+                  Atur konfigurasi sistem.
+                </p>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- PROFILE -->
+
+          <div class="panel profile">
+
+            <div class="avatar" id="avatar">
+              K
+            </div>
+
+            <h3 id="profileUsername">
+              kibo
+            </h3>
+
+            <p>
+              Administrator
+            </p>
+
+            <span class="profile-status">
+              ● Online
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- FEATURES SECTION -->
+
+      <div
+        id="featuresSection"
+        class="panel hidden"
+      >
+
+        <h2>Fitur BOSS Keyzo</h2>
+
+        <p>
+          Pusat fitur aplikasi akan dikembangkan
+          dari halaman ini.
+        </p>
+
+        <div class="features">
+
+          <div class="feature">
+            <div class="feature-icon">📊</div>
+            <h3>Analytics</h3>
+            <p>
+              Statistik penggunaan sistem.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">👥</div>
+            <h3>Users</h3>
+            <p>
+              Pengelolaan pengguna.
+            </p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">📁</div>
+            <h3>Data</h3>
+            <p>
+              Pengelolaan data.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PROFILE SECTION -->
+
+      <div
+        id="profileSection"
+        class="panel hidden"
+      >
+
+        <h2>Profil</h2>
+
+        <p>
+          Username:
+          <strong id="profileUsername2">
+            kibo
+          </strong>
+        </p>
+
+        <p>
+          Role:
+          <strong>Administrator</strong>
+        </p>
+
+        <p>
+          Status:
+          <strong>Aktif</strong>
+        </p>
+
+      </div>
+
+
+      <!-- SETTINGS SECTION -->
+
+      <div
+        id="settingsSection"
+        class="panel hidden"
+      >
+
+        <h2>Pengaturan</h2>
+
+        <p>
+          Pengaturan BOSS Keyzo akan tersedia
+          di halaman ini.
+        </p>
+
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <script>
+
+    const loginPage =
+      document.getElementById("loginPage");
+
+    const dashboardPage =
+      document.getElementById("dashboardPage");
+
+    const usernameInput =
+      document.getElementById("username");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+    const welcomeText =
+      document.getElementById("welcomeText");
+
+    const profileUsername =
+      document.getElementById("profileUsername");
+
+    const profileUsername2 =
+      document.getElementById("profileUsername2");
+
+    const avatar =
+      document.getElementById("avatar");
+
+
+    // ==========================================
+    // SHOW LOGIN
+    // ==========================================
+
+    function showLogin() {
+
+      loginPage.classList.remove("hidden");
+
+      dashboardPage.classList.add("hidden");
+
+      usernameInput.value = "";
+
+      passwordInput.value = "";
+
+      loginMessage.textContent = "";
+
+    }
+
+
+    // ==========================================
+    // SHOW DASHBOARD
+    // ==========================================
+
+    function showDashboard(username) {
+
+      loginPage.classList.add("hidden");
+
+      dashboardPage.classList.remove("hidden");
+
+      welcomeText.textContent =
+        "Selamat datang, " + username + "!";
+
+      profileUsername.textContent =
+        username;
+
+      profileUsername2.textContent =
+        username;
+
+      avatar.textContent =
+        username.charAt(0).toUpperCase();
+
+    }
+
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    async function login() {
+
+      const username =
+        usernameInput.value.trim();
+
+      const password =
+        passwordInput.value;
+
+      if (!username || !password) {
+
+        loginMessage.textContent =
+          "Username dan password wajib diisi.";
+
+        return;
+
+      }
+
+      loginButton.disabled = true;
+
+      loginButton.textContent =
+        "Memproses...";
+
+      loginMessage.textContent =
+        "";
+
+      try {
+
+        const response =
+          await fetch("/api/login", {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+              username,
+              password
+            })
+
+          });
+
+        const data =
+          await response.json();
+
+        if (!response.ok || !data.success) {
+
+          loginMessage.textContent =
+            data.message ||
+            "Login gagal.";
+
+          return;
+
+        }
+
+        sessionStorage.setItem(
+          "kiboss_user",
+          data.user.username
+        );
+
+        showDashboard(
+          data.user.username
+        );
+
+      } catch (error) {
+
+        console.error(error);
+
+        loginMessage.textContent =
+          "Server tidak dapat dihubungi.";
+
+      } finally {
+
+        loginButton.disabled = false;
+
+        loginButton.textContent =
+          "Login";
+
+      }
+
+    }
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    function logout() {
+
+      sessionStorage.removeItem(
+        "kiboss_user"
+      );
+
+      showLogin();
+
+    }
+
+
+    loginButton.addEventListener(
+      "click",
+      login
+    );
+
+    logoutButton.addEventListener(
+      "click",
+      logout
+    );
+
+
+    // ==========================================
+    // ENTER TO LOGIN
+    // ==========================================
+
+    passwordInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          login();
+        }
+
+      }
+    );
+
+
+    // ==========================================
+    // NAVIGATION
+    // ==========================================
+
+    const navItems =
+      document.querySelectorAll(".nav-item");
+
+    const sections = {
+
+      dashboard:
+        document.getElementById(
+          "dashboardSection"
+        ),
+
+      features:
+        document.getElementById(
+          "featuresSection"
+        ),
+
+      profile:
+        document.getElementById(
+          "profileSection"
+        ),
+
+      settings:
+        document.getElementById(
+          "settingsSection"
+        )
+
+    };
+
+
+    navItems.forEach(
+      function(button) {
+
+        button.addEventListener(
+          "click",
+          function() {
+
+            navItems.forEach(
+              item =>
+                item.classList.remove(
+                  "active"
+                )
+            );
+
+            button.classList.add(
+              "active"
+            );
+
+            Object.values(sections)
+              .forEach(
+                section =>
+                  section.classList.add(
+                    "hidden"
+                  )
+              );
+
+            const target =
+              button.dataset.section;
+
+            sections[target]
+              .classList.remove(
+                "hidden"
+              );
+
+            const titles = {
+
+              dashboard:
+                "BOSS Keyzo",
+
+              features:
+                "Fitur",
+
+              profile:
+                "Profil",
+
+              settings:
+                "Pengaturan"
+
+            };
+
+            document.getElementById(
+              "pageTitle"
+            ).textContent =
+              titles[target];
+
+          }
+        );
+
+      }
+    );
+
+
+    // ==========================================
+    // RESTORE LOGIN
+    // ==========================================
+
+    const savedUser =
+      sessionStorage.getItem(
+        "kiboss_user"
+      );
+
+    if (savedUser) {
+
+      showDashboard(
+        savedUser
+      );
+
+    } else {
+
+      showLogin();
+
+    }
+
+  </script>
 
 </body>
 </html>
