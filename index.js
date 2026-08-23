@@ -1,113 +1,79 @@
-wconst loginPage = document.getElementById("loginPage");
-const dashboardPage = document.getElementById("dashboardPage");
+const express = require("express");
 
-const usernameInput = document.getElementById("username");
-const passwordInput = document.getElementById("password");
+const app = express();
 
-const loginButton = document.getElementById("loginButton");
-const logoutButton = document.getElementById("logoutButton");
+app.use(express.json());
 
-const loginMessage = document.getElementById("loginMessage");
-const welcomeText = document.getElementById("welcomeText");
+/*
+ * ==============================
+ * DATA LOGIN KEYZO
+ * ==============================
+ */
 
-
-function showLogin() {
-  loginPage.classList.remove("hidden");
-  dashboardPage.classList.add("hidden");
-
-  usernameInput.value = "";
-  passwordInput.value = "";
-  loginMessage.textContent = "";
-}
+const USERNAME = "keyzo";
+const PASSWORD = "keyzo864";
 
 
-function showDashboard(username) {
-  loginPage.classList.add("hidden");
-  dashboardPage.classList.remove("hidden");
+/*
+ * ==============================
+ * LOGIN API
+ * ==============================
+ */
 
-  welcomeText.innerHTML =
-    `Selamat datang, <strong>${username}</strong>!`;
-}
+app.post("/api/login", (req, res) => {
 
-
-async function login() {
-  const username = usernameInput.value.trim();
-  const password = passwordInput.value;
+  const { username, password } = req.body || {};
 
   if (!username || !password) {
-    loginMessage.textContent =
-      "Username dan password wajib diisi.";
-    return;
+    return res.status(400).json({
+      success: false,
+      message: "Username dan password wajib diisi."
+    });
   }
 
-  loginButton.disabled = true;
-  loginButton.textContent = "Memproses...";
+  if (
+    username === USERNAME &&
+    password === PASSWORD
+  ) {
 
-  try {
-    const response = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username,
-        password
-      })
+    return res.status(200).json({
+      success: true,
+      message: "Login berhasil.",
+      user: {
+        username: username
+      }
     });
 
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      loginMessage.textContent =
-        data.message || "Login gagal.";
-      return;
-    }
-
-    sessionStorage.setItem("KEYZO_user", username);
-
-    showDashboard(username);
-
-  } catch (error) {
-    console.error(error);
-
-    loginMessage.textContent =
-      "Server tidak dapat dihubungi.";
-  } finally {
-    loginButton.disabled = false;
-    loginButton.textContent = "Login";
   }
-}
 
+  return res.status(401).json({
+    success: false,
+    message: "Username atau password salah."
+  });
 
-function logout() {
-  sessionStorage.removeItem("KEYZO_user");
-  showLogin();
-}
-
-
-loginButton.addEventListener("click", login);
-
-logoutButton.addEventListener("click", logout);
-
-
-passwordInput.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
-    login();
-  }
 });
 
 
-usernameInput.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
-    login();
-  }
+/*
+ * ==============================
+ * HEALTH CHECK
+ * ==============================
+ */
+
+app.get("/api/health", (req, res) => {
+
+  res.status(200).json({
+    success: true,
+    message: "KEYZO API online."
+  });
+
 });
 
 
-const savedUser = sessionStorage.getItem("KEYZO_user");
+/*
+ * ==============================
+ * EXPORT
+ * ==============================
+ */
 
-if (savedUser) {
-  showDashboard(savedUser);
-} else {
-  showLogin();
-}
+module.exports = app;
