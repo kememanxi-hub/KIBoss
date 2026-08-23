@@ -2,8 +2,10 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
 
   <title>KEYZO Engine</title>
 
@@ -17,188 +19,416 @@
     html,
     body {
       width: 100%;
-      height: 100%;
-      overflow: hidden;
+      min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
+      background: #08172d;
+      color: #fff;
     }
 
     body {
-      background:
-        radial-gradient(
-          circle at 50% 12%,
-          rgba(75, 55, 180, 0.75) 0%,
-          rgba(35, 32, 105, 0.85) 30%,
-          rgba(9, 25, 48, 1) 78%
-        );
-
-      color: white;
+      min-height: 100dvh;
+      overflow-x: hidden;
     }
 
-    .splash {
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+    }
+
+    .page {
       width: 100%;
-      height: 100dvh;
-      min-height: 100vh;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
+      min-height: 100dvh;
       position: relative;
       overflow: hidden;
-
       background:
         radial-gradient(
-          circle at 50% 20%,
-          rgba(86, 65, 210, 0.28),
-          transparent 45%
+          circle at 50% 8%,
+          rgba(91, 68, 220, 0.72) 0%,
+          rgba(44, 39, 122, 0.78) 24%,
+          transparent 55%
         ),
         linear-gradient(
           180deg,
-          #2a2675 0%,
-          #15194b 48%,
-          #07192d 100%
+          #2c287b 0%,
+          #171b4d 48%,
+          #07182d 100%
         );
+    }
+
+    /* =========================
+       SPLASH
+       ========================= */
+
+    #splashPage {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
     }
 
     .glow {
       position: absolute;
-      width: 520px;
-      height: 520px;
+      width: 480px;
+      height: 480px;
       border-radius: 50%;
-
-      background: rgba(92, 68, 255, 0.12);
+      background: rgba(117, 76, 255, 0.18);
       filter: blur(90px);
-
-      top: -120px;
+      top: -130px;
       left: 50%;
       transform: translateX(-50%);
+      pointer-events: none;
     }
 
-    .content {
+    .splash-content {
       position: relative;
       z-index: 2;
-
-      width: 100%;
-      max-width: 500px;
-
+      width: min(92%, 520px);
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
-      padding: 20px;
-      text-align: center;
+      padding: 30px 20px 100px;
     }
 
-    .character {
-      width: min(72vw, 380px);
-      max-height: 430px;
-
+    .ninja {
+      width: min(72vw, 350px);
+      max-height: 390px;
       object-fit: contain;
 
-      filter:
-        drop-shadow(0 20px 30px rgba(0,0,0,0.45))
-        drop-shadow(0 0 25px rgba(180, 70, 255, 0.15));
+      animation: ninjaFloat 3.2s ease-in-out infinite;
 
-      animation: float 3.5s ease-in-out infinite;
+      filter:
+        drop-shadow(0 25px 30px rgba(0, 0, 0, 0.45))
+        drop-shadow(0 0 30px rgba(177, 78, 255, 0.22));
     }
 
-    .character-fallback {
+    .ninja-fallback {
       display: none;
-
-      font-size: 170px;
+      font-size: 150px;
       line-height: 1;
-
+      animation: ninjaFloat 3.2s ease-in-out infinite;
       filter:
-        drop-shadow(0 20px 30px rgba(0,0,0,.5));
+        drop-shadow(0 20px 25px rgba(0, 0, 0, 0.5))
+        drop-shadow(0 0 25px rgba(177, 78, 255, 0.25));
+    }
+
+    @keyframes ninjaFloat {
+      0%, 100% {
+        transform: translateY(0) rotate(-1deg);
+      }
+
+      50% {
+        transform: translateY(-14px) rotate(1deg);
+      }
     }
 
     .brand {
-      margin-top: 18px;
-
-      font-size: clamp(58px, 15vw, 96px);
+      margin-top: 15px;
+      font-size: clamp(58px, 15vw, 94px);
       font-weight: 700;
-      letter-spacing: 0.22em;
-
-      margin-left: 0.22em;
-
-      color: #ffffff;
-
-      text-shadow:
-        0 5px 20px rgba(0,0,0,.45),
-        0 0 30px rgba(130, 90, 255, .18);
+      letter-spacing: 0.20em;
+      margin-left: 0.20em;
+      text-shadow: 0 6px 25px rgba(0, 0, 0, 0.45);
     }
 
     .engine {
-      margin-top: 8px;
-
-      font-size: clamp(22px, 5vw, 34px);
+      margin-top: 5px;
+      font-size: clamp(20px, 5vw, 30px);
       font-weight: 600;
+      letter-spacing: 0.52em;
+      margin-left: 0.52em;
+      color: #a8aed3;
+    }
 
-      letter-spacing: 0.55em;
-      margin-left: 0.55em;
+    .login-start {
+      margin-top: 38px;
+      width: min(100%, 330px);
+      padding: 17px 25px;
+      border-radius: 14px;
 
-      color: #a7acd3;
+      color: white;
+      background: linear-gradient(135deg, #6657ff, #4939e9);
+
+      font-size: 20px;
+      font-weight: 700;
+
+      box-shadow:
+        0 12px 30px rgba(48, 38, 180, 0.35);
+
+      transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+    }
+
+    .login-start:active {
+      transform: scale(0.97);
     }
 
     .version {
       position: absolute;
-
-      bottom: 35px;
-      left: 0;
-      right: 0;
-
-      text-align: center;
-
-      color: #969dc5;
-      font-size: 17px;
-      letter-spacing: .03em;
-
       z-index: 3;
+      bottom: 28px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      color: #979ec6;
+      font-size: 16px;
     }
 
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
+    /* =========================
+       LOGIN
+       ========================= */
+
+    .screen {
+      display: none;
+      min-height: 100dvh;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 18px;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .card {
+      width: min(100%, 560px);
+      padding: 45px 35px;
+      border-radius: 30px;
+
+      background: rgba(30, 42, 61, 0.94);
+
+      box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35);
+
+      text-align: center;
+    }
+
+    .card h1 {
+      font-size: clamp(44px, 11vw, 70px);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #a4acc6;
+      font-size: 20px;
+      margin-bottom: 35px;
+    }
+
+    .field {
+      width: 100%;
+      margin-bottom: 18px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 19px 20px;
+
+      border: 2px solid #46536c;
+      border-radius: 15px;
+
+      outline: none;
+
+      color: white;
+      background: #10182c;
+
+      font-size: 18px;
+    }
+
+    .field input:focus {
+      border-color: #6558ff;
+      box-shadow: 0 0 0 3px rgba(101, 88, 255, 0.14);
+    }
+
+    .main-button {
+      width: 100%;
+      margin-top: 7px;
+
+      padding: 18px;
+      border-radius: 15px;
+
+      color: white;
+      background: linear-gradient(135deg, #6657ff, #4939e9);
+
+      font-size: 19px;
+      font-weight: 700;
+
+      transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+    }
+
+    .main-button:active {
+      transform: scale(0.98);
+    }
+
+    .main-button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .back-button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px;
+
+      border-radius: 14px;
+
+      color: #b7bdd3;
+      background: transparent;
+
+      font-size: 16px;
+    }
+
+    .message {
+      min-height: 27px;
+      margin-top: 20px;
+
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .message.error {
+      color: #ff9da7;
+    }
+
+    .message.success {
+      color: #9ff0bd;
+    }
+
+    /* =========================
+       DASHBOARD
+       ========================= */
+
+    .dashboard {
+      width: min(100%, 900px);
+    }
+
+    .dashboard-card {
+      width: 100%;
+      padding: 45px 30px;
+      border-radius: 30px;
+
+      background: rgba(30, 42, 61, 0.94);
+
+      box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35);
+
+      text-align: center;
+    }
+
+    .dashboard-logo {
+      font-size: clamp(44px, 10vw, 70px);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .welcome {
+      color: #aeb5ce;
+      font-size: 20px;
+      margin-bottom: 35px;
+    }
+
+    .welcome strong {
+      color: white;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .feature {
+      padding: 25px 15px;
+      border-radius: 18px;
+      background: #172237;
+      border: 1px solid #2b3952;
+    }
+
+    .feature-icon {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .feature-title {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .feature-text {
+      margin-top: 5px;
+      color: #8993ad;
+      font-size: 13px;
+    }
+
+    .logout {
+      width: 100%;
+      padding: 18px;
+      border-radius: 15px;
+
+      color: white;
+      background: linear-gradient(135deg, #6657ff, #4939e9);
+
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 38px 25px;
       }
 
-      50% {
-        transform: translateY(-12px);
+      .dashboard-card {
+        padding: 38px 20px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature {
+        padding: 18px;
+      }
+
+      .ninja {
+        width: min(70vw, 300px);
+        max-height: 330px;
       }
     }
 
     @media (max-height: 700px) {
-      .character {
-        width: 260px;
-        max-height: 300px;
+      .ninja {
+        width: 230px;
+        max-height: 260px;
       }
 
       .brand {
-        font-size: 58px;
-        margin-top: 5px;
-      }
-
-      .engine {
-        font-size: 20px;
-      }
-
-      .version {
-        bottom: 20px;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .character {
-        width: 250px;
-      }
-
-      .brand {
-        font-size: 52px;
+        font-size: 54px;
       }
 
       .engine {
         font-size: 18px;
+      }
+
+      .login-start {
+        margin-top: 22px;
+      }
+
+      .version {
+        bottom: 15px;
       }
     }
   </style>
@@ -206,25 +436,29 @@
 
 <body>
 
-  <main class="splash">
+  <!-- =====================================================
+       SPLASH
+       ===================================================== -->
+
+  <section id="splashPage" class="page">
 
     <div class="glow"></div>
 
-    <section class="content">
+    <div class="splash-content">
 
       <!--
-        Letakkan karakter KEYZO di:
-        assets/keyzo.png
+        Jika punya gambar ninja KEYZO:
+        simpan sebagai assets/keyzo.png
       -->
       <img
+        id="ninjaImage"
+        class="ninja"
         src="/assets/keyzo.png"
         alt="KEYZO"
-        class="character"
-        id="character"
       >
 
-      <!-- Fallback kalau gambar belum ada -->
-      <div class="character-fallback" id="fallback">
+      <!-- Muncul otomatis jika gambar belum tersedia -->
+      <div id="ninjaFallback" class="ninja-fallback">
         🥷
       </div>
 
@@ -234,30 +468,545 @@
         ENGINE
       </div>
 
-    </section>
+      <button
+        id="startLoginButton"
+        class="login-start"
+        type="button"
+      >
+        Login
+      </button>
 
-    <footer class="version">
+    </div>
+
+    <div class="version">
       v2.1.4 &nbsp; © KEYZO
-    </footer>
+    </div>
 
-  </main>
+  </section>
+
+
+  <!-- =====================================================
+       LOGIN
+       ===================================================== -->
+
+  <section id="loginPage" class="page screen">
+
+    <div class="card">
+
+      <h1>KEYZO</h1>
+
+      <div class="subtitle">
+        Login ke panel administrator
+      </div>
+
+      <form id="loginForm">
+
+        <div class="field">
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Username"
+            autocomplete="username"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+
+        <button
+          id="loginButton"
+          class="main-button"
+          type="submit"
+        >
+          Login
+        </button>
+
+      </form>
+
+      <button
+        id="backButton"
+        class="back-button"
+        type="button"
+      >
+        ← Kembali
+      </button>
+
+      <div
+        id="loginMessage"
+        class="message"
+        aria-live="polite"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       DASHBOARD
+       ===================================================== -->
+
+  <section id="dashboardPage" class="page screen">
+
+    <div class="dashboard">
+
+      <div class="dashboard-card">
+
+        <div class="dashboard-logo">
+          BOSS KEYZO
+        </div>
+
+        <div class="welcome">
+          Selamat datang,
+          <strong id="dashboardUsername">keyzo</strong>!
+        </div>
+
+        <div class="feature-grid">
+
+          <div class="feature">
+            <div class="feature-icon">📊</div>
+            <div class="feature-title">Dashboard</div>
+            <div class="feature-text">
+              Ringkasan sistem
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">⚙️</div>
+            <div class="feature-title">System</div>
+            <div class="feature-text">
+              Status sistem
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">👤</div>
+            <div class="feature-title">Profile</div>
+            <div class="feature-text">
+              Akun administrator
+            </div>
+          </div>
+
+        </div>
+
+        <button
+          id="logoutButton"
+          class="logout"
+          type="button"
+        >
+          Logout
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
 
   <script>
-    const character = document.getElementById("character");
-    const fallback = document.getElementById("fallback");
+    /*
+     * =====================================================
+     * KEYZO FRONTEND
+     * =====================================================
+     *
+     * Login dikirim ke:
+     *
+     *     POST /api/login
+     *
+     * Username/password TIDAK ditaruh di file ini.
+     * Backend index.js yang melakukan verifikasi.
+     *
+     * Kredensial backend yang Anda minta:
+     *
+     *     username = keyzo
+     *     password = keyzo864
+     *
+     * Pastikan index.js sudah menggunakan kredensial tersebut.
+     */
 
-    character.addEventListener("error", () => {
-      character.style.display = "none";
-      fallback.style.display = "block";
-    });
+
+    const splashPage = document.getElementById("splashPage");
+    const loginPage = document.getElementById("loginPage");
+    const dashboardPage = document.getElementById("dashboardPage");
+
+    const startLoginButton =
+      document.getElementById("startLoginButton");
+
+    const backButton =
+      document.getElementById("backButton");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+    const usernameInput =
+      document.getElementById("username");
+
+    const passwordInput =
+      document.getElementById("password");
+
+    const dashboardUsername =
+      document.getElementById("dashboardUsername");
+
+    const ninjaImage =
+      document.getElementById("ninjaImage");
+
+    const ninjaFallback =
+      document.getElementById("ninjaFallback");
+
 
     /*
-      Setelah splash selesai,
-      nanti bisa diarahkan ke halaman login.
-      
-      Untuk sekarang tidak otomatis pindah,
-      supaya tampilan depan bisa dilihat dulu.
-    */
+     * =====================================================
+     * NINJA FALLBACK
+     * =====================================================
+     */
+
+    ninjaImage.addEventListener("error", function () {
+      ninjaImage.style.display = "none";
+      ninjaFallback.style.display = "block";
+    });
+
+
+    /*
+     * =====================================================
+     * SCREEN CONTROL
+     * =====================================================
+     */
+
+    function showScreen(screen) {
+
+      splashPage.classList.remove("active");
+      loginPage.classList.remove("active");
+      dashboardPage.classList.remove("active");
+
+      splashPage.style.display = "none";
+      loginPage.style.display = "none";
+      dashboardPage.style.display = "none";
+
+      screen.style.display = "flex";
+    }
+
+
+    function showSplash() {
+      splashPage.style.display = "flex";
+      loginPage.style.display = "none";
+      dashboardPage.style.display = "none";
+    }
+
+
+    function showLogin() {
+      splashPage.style.display = "none";
+      loginPage.style.display = "flex";
+      dashboardPage.style.display = "none";
+
+      clearMessage();
+
+      setTimeout(() => {
+        usernameInput.focus();
+      }, 100);
+    }
+
+
+    function showDashboard(username) {
+
+      splashPage.style.display = "none";
+      loginPage.style.display = "none";
+      dashboardPage.style.display = "flex";
+
+      dashboardUsername.textContent = username || "keyzo";
+    }
+
+
+    /*
+     * =====================================================
+     * LOGIN BUTTON DARI SPLASH
+     * =====================================================
+     */
+
+    startLoginButton.addEventListener("click", function () {
+      showLogin();
+    });
+
+
+    /*
+     * =====================================================
+     * BACK BUTTON
+     * =====================================================
+     */
+
+    backButton.addEventListener("click", function () {
+      showSplash();
+    });
+
+
+    /*
+     * =====================================================
+     * MESSAGE
+     * =====================================================
+     */
+
+    function clearMessage() {
+      loginMessage.textContent = "";
+      loginMessage.className = "message";
+    }
+
+
+    function showError(message) {
+      loginMessage.textContent = message;
+      loginMessage.className = "message error";
+    }
+
+
+    function showSuccess(message) {
+      loginMessage.textContent = message;
+      loginMessage.className = "message success";
+    }
+
+
+    /*
+     * =====================================================
+     * LOGIN
+     * =====================================================
+     */
+
+    loginForm.addEventListener("submit", async function (event) {
+
+      event.preventDefault();
+
+      clearMessage();
+
+      const username =
+        usernameInput.value.trim();
+
+      const password =
+        passwordInput.value;
+
+      if (!username || !password) {
+        showError("Username dan password wajib diisi.");
+        return;
+      }
+
+      loginButton.disabled = true;
+      loginButton.textContent = "Memproses...";
+
+      try {
+
+        const response = await fetch("/api/login", {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+
+        });
+
+
+        /*
+         * Coba baca response sebagai JSON.
+         */
+
+        let data = null;
+
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          data = null;
+        }
+
+
+        /*
+         * HTTP error
+         */
+
+        if (!response.ok) {
+
+          const errorMessage =
+            data && data.message
+              ? data.message
+              : "Login gagal.";
+
+          showError(errorMessage);
+
+          return;
+        }
+
+
+        /*
+         * Backend harus mengembalikan:
+         *
+         * {
+         *   "status": true
+         * }
+         *
+         * atau:
+         *
+         * {
+         *   "success": true
+         * }
+         */
+
+        const loginSuccess =
+          data &&
+          (
+            data.status === true ||
+            data.success === true ||
+            data.authenticated === true
+          );
+
+
+        if (!loginSuccess) {
+
+          const errorMessage =
+            data && data.message
+              ? data.message
+              : "Username atau password salah.";
+
+          showError(errorMessage);
+
+          return;
+        }
+
+
+        /*
+         * LOGIN BERHASIL
+         */
+
+        sessionStorage.setItem(
+          "keyzo_logged_in",
+          "true"
+        );
+
+        sessionStorage.setItem(
+          "keyzo_username",
+          username
+        );
+
+
+        showSuccess("Login berhasil!");
+
+        setTimeout(function () {
+
+          showDashboard(username);
+
+        }, 350);
+
+
+      } catch (error) {
+
+        /*
+         * Ini yang akan muncul jika:
+         *
+         * /api/login
+         *
+         * tidak tersedia / gagal dihubungi.
+         */
+
+        console.error("KEYZO login error:", error);
+
+        showError(
+          "Server tidak dapat dihubungi."
+        );
+
+      } finally {
+
+        loginButton.disabled = false;
+        loginButton.textContent = "Login";
+
+      }
+
+    });
+
+
+    /*
+     * =====================================================
+     * LOGOUT
+     * =====================================================
+     */
+
+    logoutButton.addEventListener("click", function () {
+
+      sessionStorage.removeItem(
+        "keyzo_logged_in"
+      );
+
+      sessionStorage.removeItem(
+        "keyzo_username"
+      );
+
+      loginForm.reset();
+
+      clearMessage();
+
+      showLogin();
+
+    });
+
+
+    /*
+     * =====================================================
+     * CEK SESSION SAAT HALAMAN DIBUKA
+     * =====================================================
+     */
+
+    function checkSession() {
+
+      const loggedIn =
+        sessionStorage.getItem(
+          "keyzo_logged_in"
+        );
+
+      const savedUsername =
+        sessionStorage.getItem(
+          "keyzo_username"
+        );
+
+
+      if (loggedIn === "true") {
+
+        showDashboard(
+          savedUsername || "keyzo"
+        );
+
+      } else {
+
+        showSplash();
+
+      }
+
+    }
+
+
+    /*
+     * START
+     */
+
+    checkSession();
+
   </script>
 
 </body>
