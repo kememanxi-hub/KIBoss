@@ -1,253 +1,113 @@
-const express = require("express");
-const crypto = require("crypto");
+const loginPage = document.getElementById("loginPage");
+const dashboardPage = document.getElementById("dashboardPage");
 
-const app = express();
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
 
-app.use(express.json());
+const loginButton = document.getElementById("loginButton");
+const logoutButton = document.getElementById("logoutButton");
 
-const SESSION_SECRET =
-  process.env.SESSION_SECRET || "KIBOSS_CHANGE_THIS_SECRET_2026";
+const loginMessage = document.getElementById("loginMessage");
+const welcomeText = document.getElementById("welcomeText");
 
-const COOKIE_NAME = "kiboss_session";
-const SESSION_DURATION = 60 * 60 * 8; // 8 jam
 
-// ======================================================
-// USER
-// ======================================================
-// Untuk sementara tetap memakai akun yang sekarang.
-// Nanti password bisa dipindahkan ke Environment Variable.
-const USERS = [
-  {
-    username: "kibo",
-    passwordHash: crypto
-      .createHash("sha256")
-      .update("kibo12345")
-      .digest("hex"),
-  },
-];
+function showLogin() {
+  loginPage.classList.remove("hidden");
+  dashboardPage.classList.add("hidden");
 
-// ======================================================
-// ROOT / HEALTH CHECK
-// ======================================================
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
-
-// ======================================================
-// COOKIE HELPERS
-// ======================================================
-
-function parseCookies(req) {
-  const cookies = {};
-
-  const header = req.headers.cookie;
-  if (!header) return cookies;
-
-  header.split(";").forEach((cookie) => {
-    const index = cookie.indexOf("=");
-
-    if (index === -1) return;
-
-    const key = cookie.slice(0, index).trim();
-    const value = cookie.slice(index + 1).trim();
-
-    cookies[key] = decodeURIComponent(value);
-  });
-
-  return cookies;
+  usernameInput.value = "";
+  passwordInput.value = "";
+  loginMessage.textContent = "";
 }
 
-function createSession(username) {
-  const payload = {
-    username,
-    exp: Math.floor(Date.now() / 1000) + SESSION_DURATION,
-  };
 
-  const encodedPayload = Buffer.from(
-    JSON.stringify(payload)
-  ).toString("base64url");
+function showDashboard(username) {
+  loginPage.classList.add("hidden");
+  dashboardPage.classList.remove("hidden");
 
-  const signature = crypto
-    .createHmac("sha256", SESSION_SECRET)
-    .update(encodedPayload)
-    .digest("base64url");
-
-  return `${encodedPayload}.${signature}`;
+  welcomeText.innerHTML =
+    `Selamat datang, <strong>${username}</strong>!`;
 }
 
-function verifySession(token) {
-  if (!token) return null;
 
-  const parts = token.split(".");
+async function login() {
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value;
 
-  if (parts.length !== 2) return null;
-
-  const [payload, signature] = parts;
-
-  const expectedSignature = crypto
-    .createHmac("sha256", SESSION_SECRET)
-    .update(payload)
-    .digest("base64url");
-
-  const a = Buffer.from(signature);
-  const b = Buffer.from(expectedSignature);
-
-  if (a.length !== b.length) return null;
-
-  if (!crypto.timingSafeEqual(a, b)) {
-    return null;
+  if (!username || !password) {
+    loginMessage.textContent =
+      "Username dan password wajib diisi.";
+    return;
   }
+
+  loginButton.disabled = true;
+  loginButton.textContent = "Memproses...";
 
   try {
-    const data = JSON.parse(
-      Buffer.from(payload, "base64url").toString("utf8")
-    );
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username,
+        password
+      })
+    });
 
-    if (!data.username || !data.exp) {
-      return null;
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      loginMessage.textContent =
+        data.message || "Login gagal.";
+      return;
     }
 
-    if (data.exp < Math.floor(Date.now() / 1000)) {
-      return null;
-    }
+    sessionStorage.setItem("kiboss_user", username);
 
-    return data;
+    showDashboard(username);
+
   } catch (error) {
-    return null;
+    console.error(error);
+
+    loginMessage.textContent =
+      "Server tidak dapat dihubungi.";
+  } finally {
+    loginButton.disabled = false;
+    loginButton.textContent = "Login";
   }
 }
 
-function getSessionUser(req) {
-  const cookies = parseCookies(req);
-  const session = verifySession(cookies[COOKIE_NAME]);
 
-  if (!session) return null;
-
-  return USERS.find(
-    (user) => user.username === session.username
-  );
+function logout() {
+  sessionStorage.removeItem("kiboss_user");
+  showLogin();
 }
 
-// ======================================================
-// LOGIN
-// ======================================================
 
-app.post("/api/login", (req, res) => {
-  const { username, password } = req.body || {};
+loginButton.addEventListener("click", login);
 
-  if (
-    typeof username !== "string" ||
-    typeof password !== "string" ||
-    !username ||
-    !password
-  ) {
-    return res.status(400).json({
-      success: false,
-      message: "Username dan password wajib diisi",
-    });
+logoutButton.addEventListener("click", logout);
+
+
+passwordInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    login();
   }
-
-  const user = USERS.find(
-    (item) => item.username === username
-  );
-
-  if (!user) {
-    return res.status(401).json({
-      success: false,
-      message: "Username atau password salah",
-    });
-  }
-
-  const passwordHash = crypto
-    .createHash("sha256")
-    .update(password)
-    .digest("hex");
-
-  if (passwordHash !== user.passwordHash) {
-    return res.status(401).json({
-      success: false,
-      message: "Username atau password salah",
-    });
-  }
-
-  const sessionToken = createSession(user.username);
-
-  res.setHeader(
-    "Set-Cookie",
-    `${COOKIE_NAME}=${encodeURIComponent(
-      sessionToken
-    )}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_DURATION}`
-  );
-
-  return res.json({
-    success: true,
-    message: "Login berhasil",
-    user: {
-      username: user.username,
-    },
-  });
 });
 
-// ======================================================
-// CHECK SESSION
-// ======================================================
 
-app.get("/api/me", (req, res) => {
-  const user = getSessionUser(req);
-
-  if (!user) {
-    return res.status(401).json({
-      success: false,
-      message: "Belum login",
-    });
+usernameInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    login();
   }
-
-  return res.json({
-    success: true,
-    user: {
-      username: user.username,
-    },
-  });
 });
 
-// ======================================================
-// LOGOUT
-// ======================================================
 
-app.post("/api/logout", (req, res) => {
-  res.setHeader(
-    "Set-Cookie",
-    `${COOKIE_NAME}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`
-  );
+const savedUser = sessionStorage.getItem("kiboss_user");
 
-  return res.json({
-    success: true,
-    message: "Logout berhasil",
-  });
-});
-
-// ======================================================
-// PROTECTED DASHBOARD API
-// ======================================================
-
-app.get("/api/dashboard", (req, res) => {
-  const user = getSessionUser(req);
-
-  if (!user) {
-    return res.status(401).json({
-      success: false,
-      message: "Akses ditolak. Silakan login.",
-    });
-  }
-
-  return res.json({
-    success: true,
-    message: "Dashboard KIBoss aktif",
-    user: {
-      username: user.username,
-    },
-  });
-});
-
-module.exports = app;
+if (savedUser) {
+  showDashboard(savedUser);
+} else {
+  showLogin();
+}
