@@ -41,15 +41,14 @@
       align-items: center;
       justify-content: center;
       padding: 30px 20px;
+      position: relative;
     }
 
     .hidden {
       display: none !important;
     }
 
-    /* =========================
-       SPLASH
-    ========================= */
+    /* SPLASH */
 
     #splashPage {
       text-align: center;
@@ -114,9 +113,7 @@
       color: #9da7ca;
     }
 
-    /* =========================
-       LOGIN
-    ========================= */
+    /* LOGIN */
 
     .login-card,
     .dashboard-card {
@@ -153,13 +150,15 @@
       background: #0e172c;
       color: white;
       font-size: 29px;
-      transition: border-color 0.2s ease,
-                  box-shadow 0.2s ease;
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
     }
 
     .input:focus {
       border-color: #6555ff;
-      box-shadow: 0 0 0 5px rgba(101, 85, 255, 0.18);
+      box-shadow:
+        0 0 0 5px rgba(101, 85, 255, 0.18);
     }
 
     .input::placeholder {
@@ -180,8 +179,9 @@
       color: white;
       font-size: 31px;
       cursor: pointer;
-      transition: transform 0.2s ease,
-                  filter 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        filter 0.2s ease;
     }
 
     .login-button:hover,
@@ -211,9 +211,7 @@
       cursor: pointer;
     }
 
-    /* =========================
-       DASHBOARD
-    ========================= */
+    /* DASHBOARD */
 
     .dashboard-title {
       font-size: 68px;
@@ -241,9 +239,7 @@
       font-size: 25px;
     }
 
-    /* =========================
-       ANIMATION
-    ========================= */
+    /* ANIMATION */
 
     @keyframes fadeIn {
       from {
@@ -269,9 +265,7 @@
       }
     }
 
-    /* =========================
-       MOBILE
-    ========================= */
+    /* MOBILE */
 
     @media (max-width: 600px) {
 
@@ -357,7 +351,7 @@
 <body>
 
   <!-- =========================
-       SPLASH PAGE
+       SPLASH
   ========================== -->
 
   <section id="splashPage" class="page">
@@ -379,6 +373,7 @@
       Login
     </button>
 
+    <!-- TETAP DIPERTAHANKAN -->
     <div class="footer">
       © KEYZO
     </div>
@@ -387,12 +382,10 @@
 
 
   <!-- =========================
-       LOGIN PAGE
+       LOGIN
   ========================== -->
 
-  <section
-    id="loginPage"
-    class="page hidden">
+  <section id="loginPage" class="page hidden">
 
     <div class="login-card">
 
@@ -445,12 +438,10 @@
 
 
   <!-- =========================
-       DASHBOARD PAGE
+       DASHBOARD
   ========================== -->
 
-  <section
-    id="dashboardPage"
-    class="page hidden">
+  <section id="dashboardPage" class="page hidden">
 
     <div class="dashboard-card">
 
@@ -468,9 +459,7 @@
 
       <div class="profile-box">
         User:
-        <strong id="welcomeUser">
-          keyzo
-        </strong>
+        <strong id="welcomeUser"></strong>
       </div>
 
       <button
@@ -488,7 +477,7 @@
   <script>
 
     /* =========================
-       KONFIGURASI LOGIN
+       LOGIN KEYZO
     ========================== */
 
     const VALID_USERNAME = "keyzo";
@@ -534,7 +523,7 @@
 
 
     /* =========================
-       TAMPILKAN SPLASH
+       SPLASH
     ========================== */
 
     function showSplash() {
@@ -549,7 +538,7 @@
 
 
     /* =========================
-       TAMPILKAN LOGIN
+       LOGIN PAGE
     ========================== */
 
     function showLogin() {
@@ -566,7 +555,7 @@
 
       passwordInput.value = "";
 
-      setTimeout(() => {
+      setTimeout(function() {
         usernameInput.focus();
       }, 100);
 
@@ -574,7 +563,7 @@
 
 
     /* =========================
-       TAMPILKAN DASHBOARD
+       DASHBOARD
     ========================== */
 
     function showDashboard(username) {
@@ -618,7 +607,7 @@
         "Memproses...";
 
 
-      setTimeout(() => {
+      setTimeout(function() {
 
         if (
           username === VALID_USERNAME &&
@@ -721,7 +710,7 @@
 
 
     /* =========================
-       CEK SESSION
+       SESSION
     ========================== */
 
     const savedUser =
