@@ -2,8 +2,13 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KIBoss Login</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>KIBoss</title>
 
   <style>
     * {
@@ -18,21 +23,24 @@
       justify-content: center;
       align-items: center;
       background: #111827;
+      color: white;
     }
 
-    .login-box {
+    .container {
       width: 90%;
-      max-width: 400px;
-      padding: 30px;
+      max-width: 500px;
+    }
+
+    .box {
       background: #1f2937;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      padding: 35px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     h1 {
       text-align: center;
-      color: white;
-      margin-bottom: 25px;
+      margin-bottom: 30px;
     }
 
     input {
@@ -43,6 +51,7 @@
       border-radius: 8px;
       background: #374151;
       color: white;
+      font-size: 16px;
       outline: none;
     }
 
@@ -66,39 +75,693 @@
       background: #4f46e5;
     }
 
-    #result {
+    .logout {
+      background: #dc2626;
       margin-top: 20px;
+    }
+
+    .logout:hover {
+      background: #b91c1c;
+    }
+
+    .message {
       text-align: center;
-      color: white;
+      margin-top: 20px;
+      min-height: 24px;
+    }
+
+    .dashboard-card {
+      background: #374151;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .welcome {
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 10px;
+      color: #86efac;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="login-box">
-    <h1>KIBoss Login</h1>
+  <div class="container">
 
-    <form id="loginForm">
-      <input
-        type="text"
-        id="username"
-        placeholder="Username"
-        required
+    <!-- ========================= -->
+    <!-- LOGIN -->
+    <!-- ========================= -->
+
+    <div id="loginPage" class="box">
+
+      <h1>KIBoss Login</h1>
+
+      <form id="loginForm">
+
+        <input
+          type="text"
+          id="username"
+          placeholder="Username"
+          autocomplete="username"
+          required
+        >
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button type="submit">
+          Login
+        </button>
+
+      </form>
+
+      <div id="loginMessage" class="message"></div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- DASHBOARD -->
+    <!-- ========================= -->
+
+    <div id="dashboardPage" class="box hidden">
+
+      <h1>KIBoss Dashboard</h1>
+
+      <div class="welcome">
+        Selamat datang,
+        <strong id="dashboardUsername"></strong>
+      </div>
+
+      <div class="dashboard-card">
+
+        <h3>Status</h3>
+
+        <div class="status">
+          ● Login aktif
+        </div>
+
+        <p>
+          Sesi login KIBoss berhasil dibuat.
+        </p>
+
+        <p>
+          Dashboard siap digunakan untuk fitur
+          berikutnya.
+        </p>
+
+      </div>
+
+      <button
+        id="logoutButton"
+        class="logout"
       >
+        Logout
+      </button>
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-        required
-      >
+      <div
+        id="dashboardMessage"
+        class="message"
+      ></div>
 
-      <button type="submit">Login</button>
-    </form>
+    </div>
 
-    <div id="result"></div>
   </div>
+
+
+  <script>
+
+    const loginPage =
+      document.getElementById("loginPage");
+
+    const dashboardPage =
+      document.getElementById("dashboardPage");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+    const dashboardUsername =
+      document.getElementById("dashboardUsername");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const dashboardMessage =
+      document.getElementById("dashboardMessage");
+
+
+    // ==========================================
+    // TAMPILKAN LOGIN
+    // ==========================================
+
+    function showLogin() {
+
+      loginPage.classList.remove("hidden");
+
+      dashboardPage.classList.add("hidden");
+
+      dashboardUsername.textContent = "";
+
+    }
+
+
+    // ==========================================
+    // TAMPILKAN DASHBOARD
+    // ==========================================
+
+    function showDashboard(username) {
+
+      loginPage.classList.add("hidden");
+
+      dashboardPage.classList.remove("hidden");
+
+      dashboardUsername.textContent = username;
+
+    }
+
+
+    // ==========================================
+    // CEK SESSION SAAT HALAMAN DIBUKA
+    // ==========================================
+
+    async function checkSession() {
+
+      try {
+
+        const response =
+          await fetch("/api/me", {
+            method: "GET",
+            credentials: "include"
+          });
+
+        const data =
+          await response.json();
+
+        if (data.success) {
+
+          showDashboard(
+            data.user.username
+          );
+
+        } else {
+
+          showLogin();
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        showLogin();
+
+      }
+
+    }
+
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    loginForm.addEventListener(
+      "submit",
+      async function (event) {
+
+        event.preventDefault();
+
+        loginMessage.textContent =
+          "Memproses login...";
+
+        const username =
+          document
+            .getElementById("username")
+            .value
+            .trim();
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+        try {
+
+          const response =
+            await fetch("/api/login", {
+
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              credentials: "include",
+
+              body: JSON.stringify({
+                username,
+                password
+              })
+
+            });
+
+          const data =
+            await response.json();
+
+          if (data.success) {
+
+            loginMessage.textContent =
+              "";
+
+            loginForm.reset();
+
+            showDashboard(
+              data.user.username
+            );
+
+          } else {
+
+            loginMessage.textContent =
+              data.message ||
+              "Login gagal";
+
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+          loginMessage.textContent =
+            "Terjadi kesalahan koneksi";
+
+        }
+
+      }
+    );
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    logoutButton.addEventListener(
+      "click",
+      async function () {
+
+        dashboardMessage.textContent =
+          "Memproses logout...";
+
+        try {
+
+          const response =
+            await fetch("/api/logout", {
+
+              method: "POST",
+
+              credentials: "include"
+
+            });
+
+          const data =
+            await response.json();
+
+          if (data.success) {
+
+            dashboardMessage.textContent =
+              "";
+
+            showLogin();
+
+          } else {
+
+            dashboardMessage.textContent =
+              "Logout gagal";
+
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+          dashboardMessage.textContent =
+            "Terjadi kesalahan koneksi";
+
+        }
+
+      }
+    );
+
+
+    // ==========================================
+    // MULAI APLIKASI
+    // ==========================================
+
+    checkSession();
+
+  </script>
+
+</body>
+</html>
+    <!-- ========================= -->
+    <!-- LOGIN -->
+    <!-- ========================= -->
+
+    <div id="loginPage" class="box">
+
+      <h1>KIBoss Login</h1>
+
+      <form id="loginForm">
+
+        <input
+          type="text"
+          id="username"
+          placeholder="Username"
+          autocomplete="username"
+          required
+        >
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button type="submit">
+          Login
+        </button>
+
+      </form>
+
+      <div id="loginMessage" class="message"></div>
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- DASHBOARD -->
+    <!-- ========================= -->
+
+    <div id="dashboardPage" class="box hidden">
+
+      <h1>KIBoss Dashboard</h1>
+
+      <div class="welcome">
+        Selamat datang,
+        <strong id="dashboardUsername"></strong>
+      </div>
+
+      <div class="dashboard-card">
+
+        <h3>Status</h3>
+
+        <div class="status">
+          ● Login aktif
+        </div>
+
+        <p>
+          Sesi login KIBoss berhasil dibuat.
+        </p>
+
+        <p>
+          Dashboard siap digunakan untuk fitur
+          berikutnya.
+        </p>
+
+      </div>
+
+      <button
+        id="logoutButton"
+        class="logout"
+      >
+        Logout
+      </button>
+
+      <div
+        id="dashboardMessage"
+        class="message"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const loginPage =
+      document.getElementById("loginPage");
+
+    const dashboardPage =
+      document.getElementById("dashboardPage");
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+    const dashboardUsername =
+      document.getElementById("dashboardUsername");
+
+    const logoutButton =
+      document.getElementById("logoutButton");
+
+    const dashboardMessage =
+      document.getElementById("dashboardMessage");
+
+
+    // ==========================================
+    // TAMPILKAN LOGIN
+    // ==========================================
+
+    function showLogin() {
+
+      loginPage.classList.remove("hidden");
+
+      dashboardPage.classList.add("hidden");
+
+      dashboardUsername.textContent = "";
+
+    }
+
+
+    // ==========================================
+    // TAMPILKAN DASHBOARD
+    // ==========================================
+
+    function showDashboard(username) {
+
+      loginPage.classList.add("hidden");
+
+      dashboardPage.classList.remove("hidden");
+
+      dashboardUsername.textContent = username;
+
+    }
+
+
+    // ==========================================
+    // CEK SESSION SAAT HALAMAN DIBUKA
+    // ==========================================
+
+    async function checkSession() {
+
+      try {
+
+        const response =
+          await fetch("/api/me", {
+            method: "GET",
+            credentials: "include"
+          });
+
+        const data =
+          await response.json();
+
+        if (data.success) {
+
+          showDashboard(
+            data.user.username
+          );
+
+        } else {
+
+          showLogin();
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        showLogin();
+
+      }
+
+    }
+
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    loginForm.addEventListener(
+      "submit",
+      async function (event) {
+
+        event.preventDefault();
+
+        loginMessage.textContent =
+          "Memproses login...";
+
+        const username =
+          document
+            .getElementById("username")
+            .value
+            .trim();
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+        try {
+
+          const response =
+            await fetch("/api/login", {
+
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              credentials: "include",
+
+              body: JSON.stringify({
+                username,
+                password
+              })
+
+            });
+
+          const data =
+            await response.json();
+
+          if (data.success) {
+
+            loginMessage.textContent =
+              "";
+
+            loginForm.reset();
+
+            showDashboard(
+              data.user.username
+            );
+
+          } else {
+
+            loginMessage.textContent =
+              data.message ||
+              "Login gagal";
+
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+          loginMessage.textContent =
+            "Terjadi kesalahan koneksi";
+
+        }
+
+      }
+    );
+
+
+    // ==========================================
+    // LOGOUT
+    // ==========================================
+
+    logoutButton.addEventListener(
+      "click",
+      async function () {
+
+        dashboardMessage.textContent =
+          "Memproses logout...";
+
+        try {
+
+          const response =
+            await fetch("/api/logout", {
+
+              method: "POST",
+
+              credentials: "include"
+
+            });
+
+          const data =
+            await response.json();
+
+          if (data.success) {
+
+            dashboardMessage.textContent =
+              "";
+
+            showLogin();
+
+          } else {
+
+            dashboardMessage.textContent =
+              "Logout gagal";
+
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+          dashboardMessage.textContent =
+            "Terjadi kesalahan koneksi";
+
+        }
+
+      }
+    );
+
+
+    // ==========================================
+    // MULAI APLIKASI
+    // ==========================================
+
+    checkSession();
+
+  </script>
+
+</body>
+</html>  </div>
 
   <script>
     const form = document.getElementById("loginForm");
