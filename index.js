@@ -1,29 +1,75 @@
 const express = require('express');
+const crypto = require('crypto');
+
 const app = express();
 
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Server KIBOBoss Aktif!');
-});
-
-// Endpoint untuk file json dengan menambahkan data tanggal yang valid (misal tahun 2030)
-app.get('/users/kibo.json', (req, res) => {
   res.json({
-    username: "kibo",
-    password: "kibboss",
-    status: "active",
-    expired: "2030-12-31",
-    date: "2026-01-01"
+    status: true,
+    message: 'Server KIBOBoss Aktif!'
   });
 });
 
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
-  if (username === 'kibo' && password === 'kibboss') {
-    return res.json({ status: true, message: 'Login Berhasil!' });
+// Data akun.
+// Untuk tahap awal ini masih berada di server,
+// bukan di APK dan bukan endpoint publik.
+const USERS = [
+  {
+    username: 'kibo',
+    passwordHash: crypto
+      .createHash('sha256')
+      .update('kibo12345')
+      .digest('hex')
   }
-  res.status(401).json({ status: false, message: 'Gagal Login' });
+];
+
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body || {};
+
+  if (
+    typeof username !== 'string' ||
+    typeof password !== 'string' ||
+    !username ||
+    !password
+  ) {
+    return res.status(400).json({
+      success: false,
+      message: 'Username dan password wajib diisi'
+    });
+  }
+
+  const user = USERS.find(
+    item => item.username === username
+  );
+
+  if (!user) {
+    return res.status(401).json({
+      success: false,
+      message: 'Username atau password salah'
+    });
+  }
+
+  const passwordHash = crypto
+    .createHash('sha256')
+    .update(password)
+    .digest('hex');
+
+  if (passwordHash !== user.passwordHash) {
+    return res.status(401).json({
+      success: false,
+      message: 'Username atau password salah'
+    });
+  }
+
+  return res.json({
+    success: true,
+    message: 'Login berhasil',
+    user: {
+      username: user.username
+    }
+  });
 });
 
 module.exports = app;
