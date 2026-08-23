@@ -1,4 +1,4 @@
-const loginPage = document.getElementById("loginPage");
+wconst loginPage = document.getElementById("loginPage");
 const dashboardPage = document.getElementById("dashboardPage");
 
 const usernameInput = document.getElementById("username");
@@ -63,7 +63,7 @@ async function login() {
       return;
     }
 
-    sessionStorage.setItem("kiboss_user", username);
+    sessionStorage.setItem("KEYZO_user", username);
 
     showDashboard(username);
 
@@ -80,7 +80,7 @@ async function login() {
 
 
 function logout() {
-  sessionStorage.removeItem("kiboss_user");
+  sessionStorage.removeItem("KEYZO_user");
   showLogin();
 }
 
@@ -104,7 +104,7 @@ usernameInput.addEventListener("keydown", function(event) {
 });
 
 
-const savedUser = sessionStorage.getItem("kiboss_user");
+const savedUser = sessionStorage.getItem("KEYZO_user");
 
 if (savedUser) {
   showDashboard(savedUser);
