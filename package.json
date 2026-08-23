@@ -1,7 +1,7 @@
 {
-  "name": "kiboss-server",
+  "name": "bosskeyzo-server",
   "version": "1.0.0",
-  "description": "Server KIBOBoss",
+  "description": "Server BossKeyzo",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
