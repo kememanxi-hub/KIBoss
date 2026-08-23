@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>KEYZO Engine</title>
+  <title>KEYZO</title>
 
   <style>
     * {
@@ -18,459 +18,337 @@
       width: 100%;
       min-height: 100%;
       font-family: Arial, Helvetica, sans-serif;
-      background: #08172d;
-      color: #fff;
+      background:
+        radial-gradient(
+          circle at top,
+          #4430b8 0%,
+          #211b6d 35%,
+          #07182e 100%
+        );
+      color: white;
     }
 
     body {
-      min-height: 100dvh;
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    button,
-    input {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-      border: 0;
-    }
-
     .page {
+      min-height: 100vh;
       width: 100%;
-      min-height: 100dvh;
-      position: relative;
-      overflow: hidden;
-
-      background:
-        radial-gradient(
-          circle at 50% 8%,
-          rgba(91, 68, 220, 0.72) 0%,
-          rgba(44, 39, 122, 0.78) 24%,
-          transparent 55%
-        ),
-        linear-gradient(
-          180deg,
-          #2c287b 0%,
-          #171b4d 48%,
-          #07182d 100%
-        );
-    }
-
-    /* =========================
-       SPLASH
-       ========================= */
-
-    #splashPage {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100dvh;
-    }
-
-    .glow {
-      position: absolute;
-      width: 480px;
-      height: 480px;
-      border-radius: 50%;
-      background: rgba(117, 76, 255, 0.18);
-      filter: blur(90px);
-      top: -130px;
-      left: 50%;
-      transform: translateX(-50%);
-      pointer-events: none;
-    }
-
-    .splash-content {
-      position: relative;
-      z-index: 2;
-      width: min(92%, 520px);
-      text-align: center;
-
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
-      padding: 30px 20px 60px;
+      padding: 30px 20px;
     }
 
-    .ninja {
-      width: min(72vw, 350px);
-      max-height: 390px;
-      object-fit: contain;
-
-      animation: ninjaFloat 3.2s ease-in-out infinite;
-
-      filter:
-        drop-shadow(0 25px 30px rgba(0, 0, 0, 0.45))
-        drop-shadow(0 0 30px rgba(177, 78, 255, 0.22));
-    }
-
-    .ninja-fallback {
-      display: none;
-      font-size: 150px;
-      line-height: 1;
-
-      animation: ninjaFloat 3.2s ease-in-out infinite;
-
-      filter:
-        drop-shadow(0 20px 25px rgba(0, 0, 0, 0.5))
-        drop-shadow(0 0 25px rgba(177, 78, 255, 0.25));
-    }
-
-    @keyframes ninjaFloat {
-      0%, 100% {
-        transform: translateY(0) rotate(-1deg);
-      }
-
-      50% {
-        transform: translateY(-14px) rotate(1deg);
-      }
-    }
-
-    .brand {
-      margin-top: 15px;
-
-      font-size: clamp(58px, 15vw, 94px);
-      font-weight: 700;
-      letter-spacing: 0.20em;
-      margin-left: 0.20em;
-
-      text-shadow:
-        0 6px 25px rgba(0, 0, 0, 0.45);
-    }
-
-    .engine {
-      margin-top: 5px;
-
-      font-size: clamp(20px, 5vw, 30px);
-      font-weight: 600;
-      letter-spacing: 0.52em;
-      margin-left: 0.52em;
-
-      color: #a8aed3;
-    }
-
-    .login-start {
-      margin-top: 38px;
-      width: min(100%, 330px);
-
-      padding: 17px 25px;
-      border-radius: 14px;
-
-      color: white;
-
-      background:
-        linear-gradient(
-          135deg,
-          #6657ff,
-          #4939e9
-        );
-
-      font-size: 20px;
-      font-weight: 700;
-
-      box-shadow:
-        0 12px 30px rgba(48, 38, 180, 0.35);
-
-      transition:
-        transform 0.15s ease,
-        opacity 0.15s ease;
-    }
-
-    .login-start:active {
-      transform: scale(0.97);
+    .hidden {
+      display: none !important;
     }
 
     /* =========================
-       SCREEN
-       ========================= */
+       SPLASH
+    ========================= */
 
-    .screen {
-      display: none;
-
-      min-height: 100dvh;
-
-      align-items: center;
-      justify-content: center;
-
-      padding: 30px 18px;
-    }
-
-    .card {
-      width: min(100%, 560px);
-
-      padding: 45px 35px;
-
-      border-radius: 30px;
-
-      background:
-        rgba(30, 42, 61, 0.94);
-
-      box-shadow:
-        0 25px 70px rgba(0, 0, 0, 0.35);
-
+    #splashPage {
       text-align: center;
+      animation: fadeIn 0.8s ease;
     }
 
-    .card h1 {
-      font-size: clamp(44px, 11vw, 70px);
-      margin-bottom: 10px;
+    .ninja {
+      font-size: 150px;
+      line-height: 1;
+      margin-bottom: 25px;
+      filter: drop-shadow(0 10px 25px rgba(0,0,0,0.35));
     }
 
-    .subtitle {
-      color: #a4acc6;
-      font-size: 20px;
-      margin-bottom: 35px;
+    .brand {
+      font-size: 76px;
+      font-weight: 700;
+      letter-spacing: 14px;
+      margin-left: 14px;
     }
 
-    .field {
-      width: 100%;
-      margin-bottom: 18px;
-    }
-
-    .field input {
-      width: 100%;
-
-      padding: 19px 20px;
-
-      border: 2px solid #46536c;
-      border-radius: 15px;
-
-      outline: none;
-
-      color: white;
-      background: #10182c;
-
-      font-size: 18px;
-    }
-
-    .field input:focus {
-      border-color: #6558ff;
-
-      box-shadow:
-        0 0 0 3px rgba(101, 88, 255, 0.14);
+    .engine {
+      margin-top: 18px;
+      font-size: 32px;
+      letter-spacing: 14px;
+      color: #aeb5d6;
+      margin-left: 14px;
     }
 
     .main-button {
-      width: 100%;
-
-      margin-top: 7px;
-
-      padding: 18px;
-
-      border-radius: 15px;
-
+      width: min(680px, 90vw);
+      height: 90px;
+      margin-top: 55px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(
+        135deg,
+        #6555ff,
+        #4935e8
+      );
       color: white;
+      font-size: 32px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow:
+        0 15px 35px rgba(54, 36, 220, 0.35);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
 
-      background:
-        linear-gradient(
-          135deg,
-          #6657ff,
-          #4939e9
-        );
-
-      font-size: 19px;
-      font-weight: 700;
-
-      transition:
-        transform 0.15s ease,
-        opacity 0.15s ease;
+    .main-button:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.08);
     }
 
     .main-button:active {
       transform: scale(0.98);
     }
 
-    .main-button:disabled {
+    .footer {
+      position: absolute;
+      bottom: 35px;
+      font-size: 28px;
+      color: #9da7ca;
+    }
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    .login-card,
+    .dashboard-card {
+      width: min(760px, 92vw);
+      padding: 65px 55px;
+      border-radius: 38px;
+      background: rgba(29, 43, 64, 0.94);
+      box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.35);
+      text-align: center;
+      animation: slideUp 0.45s ease;
+    }
+
+    .login-title {
+      font-size: 68px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .login-subtitle {
+      font-size: 32px;
+      color: #aab4d2;
+      margin-bottom: 55px;
+    }
+
+    .input {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 28px;
+      padding: 0 28px;
+      border-radius: 25px;
+      border: 3px solid #465675;
+      outline: none;
+      background: #0e172c;
+      color: white;
+      font-size: 29px;
+      transition: border-color 0.2s ease,
+                  box-shadow 0.2s ease;
+    }
+
+    .input:focus {
+      border-color: #6555ff;
+      box-shadow: 0 0 0 5px rgba(101, 85, 255, 0.18);
+    }
+
+    .input::placeholder {
+      color: #8993ad;
+    }
+
+    .login-button,
+    .logout-button {
+      width: 100%;
+      height: 95px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(
+        135deg,
+        #6555ff,
+        #4935e8
+      );
+      color: white;
+      font-size: 31px;
+      cursor: pointer;
+      transition: transform 0.2s ease,
+                  filter 0.2s ease;
+    }
+
+    .login-button:hover,
+    .logout-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .login-button:disabled {
       opacity: 0.6;
       cursor: wait;
     }
 
-    .back-button {
-      width: 100%;
-
-      margin-top: 14px;
-
-      padding: 14px;
-
-      border-radius: 14px;
-
-      color: #b7bdd3;
-      background: transparent;
-
-      font-size: 16px;
-    }
-
     .message {
-      min-height: 27px;
-
-      margin-top: 20px;
-
-      font-size: 17px;
-      line-height: 1.4;
+      min-height: 40px;
+      margin-top: 28px;
+      font-size: 24px;
+      color: #ff9ca7;
     }
 
-    .message.error {
-      color: #ff9da7;
-    }
-
-    .message.success {
-      color: #9ff0bd;
+    .back-button {
+      margin-top: 35px;
+      border: none;
+      background: transparent;
+      color: #aab4d2;
+      font-size: 27px;
+      cursor: pointer;
     }
 
     /* =========================
        DASHBOARD
-       ========================= */
+    ========================= */
 
-    .dashboard {
-      width: min(100%, 900px);
-    }
-
-    .dashboard-card {
-      width: 100%;
-
-      padding: 45px 30px;
-
-      border-radius: 30px;
-
-      background:
-        rgba(30, 42, 61, 0.94);
-
-      box-shadow:
-        0 25px 70px rgba(0, 0, 0, 0.35);
-
-      text-align: center;
-    }
-
-    .dashboard-logo {
-      font-size: clamp(44px, 10vw, 70px);
-      font-weight: 700;
-
-      letter-spacing: 0.08em;
-
-      margin-bottom: 10px;
-    }
-
-    .welcome {
-      color: #aeb5ce;
-
-      font-size: 20px;
-
+    .dashboard-title {
+      font-size: 68px;
       margin-bottom: 35px;
     }
 
-    .welcome strong {
-      color: white;
+    .welcome {
+      font-size: 40px;
+      margin-bottom: 25px;
     }
 
-    .feature-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 15px;
-
-      margin-bottom: 30px;
-    }
-
-    .feature {
-      padding: 25px 15px;
-
-      border-radius: 18px;
-
-      background: #172237;
-
-      border: 1px solid #2b3952;
-    }
-
-    .feature-icon {
+    .dashboard-text {
       font-size: 30px;
-
-      margin-bottom: 10px;
+      line-height: 1.5;
+      color: #d2d8e8;
+      margin-bottom: 55px;
     }
 
-    .feature-title {
-      font-size: 17px;
-      font-weight: 700;
+    .profile-box {
+      margin-bottom: 40px;
+      padding: 25px;
+      border-radius: 22px;
+      background: rgba(10, 20, 40, 0.55);
+      color: #bfc8df;
+      font-size: 25px;
     }
 
-    .feature-text {
-      margin-top: 5px;
+    /* =========================
+       ANIMATION
+    ========================= */
 
-      color: #8993ad;
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.97);
+      }
 
-      font-size: 13px;
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
-    .logout {
-      width: 100%;
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
 
-      padding: 18px;
-
-      border-radius: 15px;
-
-      color: white;
-
-      background:
-        linear-gradient(
-          135deg,
-          #6657ff,
-          #4939e9
-        );
-
-      font-size: 19px;
-      font-weight: 700;
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* =========================
        MOBILE
-       ========================= */
+    ========================= */
 
     @media (max-width: 600px) {
 
-      .card {
-        padding: 38px 25px;
-      }
-
-      .dashboard-card {
-        padding: 38px 20px;
-      }
-
-      .feature-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .feature {
-        padding: 18px;
+      .page {
+        padding: 25px 16px;
       }
 
       .ninja {
-        width: min(70vw, 300px);
-        max-height: 330px;
-      }
-    }
-
-    @media (max-height: 700px) {
-
-      .ninja {
-        width: 230px;
-        max-height: 260px;
+        font-size: 110px;
       }
 
       .brand {
-        font-size: 54px;
+        font-size: 52px;
+        letter-spacing: 9px;
+        margin-left: 9px;
       }
 
       .engine {
-        font-size: 18px;
+        font-size: 23px;
+        letter-spacing: 9px;
+        margin-left: 9px;
       }
 
-      .login-start {
-        margin-top: 22px;
+      .main-button {
+        height: 78px;
+        font-size: 27px;
+        border-radius: 21px;
+        margin-top: 42px;
+      }
+
+      .footer {
+        bottom: 25px;
+        font-size: 21px;
+      }
+
+      .login-card,
+      .dashboard-card {
+        padding: 45px 28px;
+        border-radius: 32px;
+      }
+
+      .login-title,
+      .dashboard-title {
+        font-size: 48px;
+      }
+
+      .login-subtitle {
+        font-size: 25px;
+        margin-bottom: 38px;
+      }
+
+      .input {
+        height: 82px;
+        font-size: 23px;
+        margin-bottom: 22px;
+      }
+
+      .login-button,
+      .logout-button {
+        height: 82px;
+        font-size: 27px;
+      }
+
+      .message {
+        font-size: 19px;
+      }
+
+      .welcome {
+        font-size: 29px;
+      }
+
+      .dashboard-text {
+        font-size: 22px;
+      }
+
+      .profile-box {
+        font-size: 19px;
       }
     }
   </style>
@@ -479,120 +357,87 @@
 <body>
 
   <!-- =========================
-       SPLASH
-       ========================= -->
+       SPLASH PAGE
+  ========================== -->
 
   <section id="splashPage" class="page">
 
-    <div class="glow"></div>
+    <div class="ninja">🥷</div>
 
-    <div class="splash-content">
+    <div class="brand">
+      KEYZO
+    </div>
 
-      <img
-        id="ninjaImage"
-        class="ninja"
-        src="/assets/keyzo.png"
-        alt="KEYZO"
-      >
+    <div class="engine">
+      ENGINE
+    </div>
 
-      <div
-        id="ninjaFallback"
-        class="ninja-fallback"
-      >
-        🥷
-      </div>
+    <button
+      id="goLoginButton"
+      class="main-button"
+      type="button">
+      Login
+    </button>
 
-      <h1 class="brand">
-        KEYZO
-      </h1>
-
-      <div class="engine">
-        ENGINE
-      </div>
-
-      <button
-        id="startLoginButton"
-        class="login-start"
-        type="button"
-      >
-        Login
-      </button>
-
+    <div class="footer">
+      © KEYZO
     </div>
 
   </section>
 
 
   <!-- =========================
-       LOGIN
-       ========================= -->
+       LOGIN PAGE
+  ========================== -->
 
   <section
     id="loginPage"
-    class="page screen"
-  >
+    class="page hidden">
 
-    <div class="card">
+    <div class="login-card">
 
-      <h1>
+      <h1 class="login-title">
         KEYZO
       </h1>
 
-      <div class="subtitle">
+      <div class="login-subtitle">
         Use Key🔑
       </div>
 
-      <form id="loginForm">
+      <input
+        id="username"
+        class="input"
+        type="text"
+        placeholder="Username"
+        autocomplete="username"
+      >
 
-        <div class="field">
-
-          <input
-            id="username"
-            name="username"
-            type="text"
-            placeholder="Username"
-            autocomplete="username"
-            required
-          >
-
-        </div>
-
-        <div class="field">
-
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Password"
-            autocomplete="current-password"
-            required
-          >
-
-        </div>
-
-        <button
-          id="loginButton"
-          class="main-button"
-          type="submit"
-        >
-          Login
-        </button>
-
-      </form>
+      <input
+        id="password"
+        class="input"
+        type="password"
+        placeholder="Password"
+        autocomplete="current-password"
+      >
 
       <button
-        id="backButton"
-        class="back-button"
-        type="button"
-      >
-        ← Kembali
+        id="loginButton"
+        class="login-button"
+        type="button">
+        Login
       </button>
 
       <div
         id="loginMessage"
-        class="message"
-        aria-live="polite"
-      ></div>
+        class="message">
+      </div>
+
+      <button
+        id="backButton"
+        class="back-button"
+        type="button">
+        ← Kembali
+      </button>
 
     </div>
 
@@ -600,89 +445,40 @@
 
 
   <!-- =========================
-       DASHBOARD
-       ========================= -->
+       DASHBOARD PAGE
+  ========================== -->
 
   <section
     id="dashboardPage"
-    class="page screen"
-  >
+    class="page hidden">
 
-    <div class="dashboard">
+    <div class="dashboard-card">
 
-      <div class="dashboard-card">
+      <h1 class="dashboard-title">
+        KEYZO
+      </h1>
 
-        <div class="dashboard-logo">
-          BOSS KEYZO
-        </div>
-
-        <div class="welcome">
-          WELCOME TO KEYZO
-        </div>
-
-        <div class="feature-grid">
-
-          <div class="feature">
-
-            <div class="feature-icon">
-              📊
-            </div>
-
-            <div class="feature-title">
-              Dashboard
-            </div>
-
-            <div class="feature-text">
-              Ringkasan sistem
-            </div>
-
-          </div>
-
-
-          <div class="feature">
-
-            <div class="feature-icon">
-              ⚙️
-            </div>
-
-            <div class="feature-title">
-              System
-            </div>
-
-            <div class="feature-text">
-              Status sistem
-            </div>
-
-          </div>
-
-
-          <div class="feature">
-
-            <div class="feature-icon">
-              👤
-            </div>
-
-            <div class="feature-title">
-              Profile
-            </div>
-
-            <div class="feature-text">
-              Akun administrator
-            </div>
-
-          </div>
-
-        </div>
-
-        <button
-          id="logoutButton"
-          class="logout"
-          type="button"
-        >
-          Logout
-        </button>
-
+      <div class="welcome">
+        WELCOME TO KEYZO
       </div>
+
+      <div class="dashboard-text">
+        Anda berhasil masuk ke KEYZO.
+      </div>
+
+      <div class="profile-box">
+        User:
+        <strong id="welcomeUser">
+          keyzo
+        </strong>
+      </div>
+
+      <button
+        id="logoutButton"
+        class="logout-button"
+        type="button">
+        Logout
+      </button>
 
     </div>
 
@@ -690,6 +486,18 @@
 
 
   <script>
+
+    /* =========================
+       KONFIGURASI LOGIN
+    ========================== */
+
+    const VALID_USERNAME = "keyzo";
+    const VALID_PASSWORD = "keyzo864";
+
+
+    /* =========================
+       ELEMENT
+    ========================== */
 
     const splashPage =
       document.getElementById("splashPage");
@@ -700,14 +508,11 @@
     const dashboardPage =
       document.getElementById("dashboardPage");
 
-    const startLoginButton =
-      document.getElementById("startLoginButton");
+    const goLoginButton =
+      document.getElementById("goLoginButton");
 
     const backButton =
       document.getElementById("backButton");
-
-    const loginForm =
-      document.getElementById("loginForm");
 
     const loginButton =
       document.getElementById("loginButton");
@@ -715,349 +520,225 @@
     const logoutButton =
       document.getElementById("logoutButton");
 
-    const loginMessage =
-      document.getElementById("loginMessage");
-
     const usernameInput =
       document.getElementById("username");
 
     const passwordInput =
       document.getElementById("password");
 
-    const ninjaImage =
-      document.getElementById("ninjaImage");
+    const loginMessage =
+      document.getElementById("loginMessage");
 
-    const ninjaFallback =
-      document.getElementById("ninjaFallback");
-
-
-    /* =========================
-       NINJA FALLBACK
-       ========================= */
-
-    ninjaImage.addEventListener(
-      "error",
-      function () {
-
-        ninjaImage.style.display = "none";
-
-        ninjaFallback.style.display = "block";
-
-      }
-    );
+    const welcomeUser =
+      document.getElementById("welcomeUser");
 
 
     /* =========================
-       SCREEN
-       ========================= */
+       TAMPILKAN SPLASH
+    ========================== */
 
     function showSplash() {
 
-      splashPage.style.display = "flex";
+      splashPage.classList.remove("hidden");
 
-      loginPage.style.display = "none";
+      loginPage.classList.add("hidden");
 
-      dashboardPage.style.display = "none";
+      dashboardPage.classList.add("hidden");
 
     }
 
+
+    /* =========================
+       TAMPILKAN LOGIN
+    ========================== */
 
     function showLogin() {
 
-      splashPage.style.display = "none";
+      splashPage.classList.add("hidden");
 
-      loginPage.style.display = "flex";
+      loginPage.classList.remove("hidden");
 
-      dashboardPage.style.display = "none";
-
-      clearMessage();
-
-      setTimeout(
-        function () {
-          usernameInput.focus();
-        },
-        100
-      );
-
-    }
-
-
-    function showDashboard() {
-
-      splashPage.style.display = "none";
-
-      loginPage.style.display = "none";
-
-      dashboardPage.style.display = "flex";
-
-    }
-
-
-    /* =========================
-       SPLASH LOGIN
-       ========================= */
-
-    startLoginButton.addEventListener(
-      "click",
-      function () {
-
-        showLogin();
-
-      }
-    );
-
-
-    /* =========================
-       BACK
-       ========================= */
-
-    backButton.addEventListener(
-      "click",
-      function () {
-
-        showSplash();
-
-      }
-    );
-
-
-    /* =========================
-       MESSAGE
-       ========================= */
-
-    function clearMessage() {
+      dashboardPage.classList.add("hidden");
 
       loginMessage.textContent = "";
 
-      loginMessage.className = "message";
+      usernameInput.value = "";
+
+      passwordInput.value = "";
+
+      setTimeout(() => {
+        usernameInput.focus();
+      }, 100);
 
     }
 
 
-    function showError(message) {
+    /* =========================
+       TAMPILKAN DASHBOARD
+    ========================== */
 
-      loginMessage.textContent = message;
+    function showDashboard(username) {
 
-      loginMessage.className =
-        "message error";
+      splashPage.classList.add("hidden");
 
-    }
+      loginPage.classList.add("hidden");
 
+      dashboardPage.classList.remove("hidden");
 
-    function showSuccess(message) {
-
-      loginMessage.textContent = message;
-
-      loginMessage.className =
-        "message success";
+      welcomeUser.textContent = username;
 
     }
 
 
     /* =========================
        LOGIN
-       ========================= */
+    ========================== */
 
-    loginForm.addEventListener(
-      "submit",
-      async function (event) {
+    function login() {
 
-        event.preventDefault();
+      const username =
+        usernameInput.value.trim();
 
-        clearMessage();
-
-        const username =
-          usernameInput.value.trim();
-
-        const password =
-          passwordInput.value;
-
-        if (!username || !password) {
-
-          showError(
-            "Username dan password wajib diisi."
-          );
-
-          return;
-        }
+      const password =
+        passwordInput.value;
 
 
-        loginButton.disabled = true;
+      if (!username || !password) {
 
-        loginButton.textContent =
-          "Memproses...";
+        loginMessage.textContent =
+          "Username dan password wajib diisi.";
 
-
-        try {
-
-          const response =
-            await fetch(
-              "/api/login",
-              {
-                method: "POST",
-
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
-
-                body: JSON.stringify({
-                  username: username,
-                  password: password
-                })
-              }
-            );
+        return;
+      }
 
 
-          let data = null;
+      loginButton.disabled = true;
+
+      loginButton.textContent =
+        "Memproses...";
 
 
-          try {
+      setTimeout(() => {
 
-            data =
-              await response.json();
-
-          } catch (error) {
-
-            data = null;
-
-          }
-
-
-          if (!response.ok) {
-
-            showError(
-              data && data.message
-                ? data.message
-                : "Login gagal."
-            );
-
-            return;
-          }
-
-
-          const loginSuccess =
-            data &&
-            (
-              data.status === true ||
-              data.success === true ||
-              data.authenticated === true
-            );
-
-
-          if (!loginSuccess) {
-
-            showError(
-              data && data.message
-                ? data.message
-                : "Username atau password salah."
-            );
-
-            return;
-          }
-
+        if (
+          username === VALID_USERNAME &&
+          password === VALID_PASSWORD
+        ) {
 
           sessionStorage.setItem(
-            "keyzo_logged_in",
-            "true"
-          );
-
-          sessionStorage.setItem(
-            "keyzo_username",
+            "KEYZO_user",
             username
           );
 
+          loginMessage.textContent = "";
 
-          showSuccess(
-            "Login berhasil!"
-          );
+          showDashboard(username);
 
+        } else {
 
-          setTimeout(
-            function () {
+          loginMessage.textContent =
+            "Username atau password salah.";
 
-              showDashboard();
+          passwordInput.value = "";
 
-            },
-            350
-          );
-
-
-        } catch (error) {
-
-          console.error(
-            "KEYZO login error:",
-            error
-          );
-
-          showError(
-            "Server tidak dapat dihubungi."
-          );
-
-        } finally {
-
-          loginButton.disabled = false;
-
-          loginButton.textContent =
-            "Login";
+          passwordInput.focus();
 
         }
 
-      }
-    );
 
+        loginButton.disabled = false;
 
-    /* =========================
-       LOGOUT
-       ========================= */
+        loginButton.textContent =
+          "Login";
 
-    logoutButton.addEventListener(
-      "click",
-      function () {
-
-        sessionStorage.removeItem(
-          "keyzo_logged_in"
-        );
-
-        sessionStorage.removeItem(
-          "keyzo_username"
-        );
-
-        loginForm.reset();
-
-        clearMessage();
-
-        showLogin();
-
-      }
-    );
-
-
-    /* =========================
-       SESSION
-       ========================= */
-
-    function checkSession() {
-
-      const loggedIn =
-        sessionStorage.getItem(
-          "keyzo_logged_in"
-        );
-
-      if (loggedIn === "true") {
-
-        showDashboard();
-
-      } else {
-
-        showSplash();
-
-      }
+      }, 350);
 
     }
 
 
-    checkSession();
+    /* =========================
+       LOGOUT
+    ========================== */
+
+    function logout() {
+
+      sessionStorage.removeItem(
+        "KEYZO_user"
+      );
+
+      showLogin();
+
+    }
+
+
+    /* =========================
+       EVENT
+    ========================== */
+
+    goLoginButton.addEventListener(
+      "click",
+      showLogin
+    );
+
+    backButton.addEventListener(
+      "click",
+      showSplash
+    );
+
+    loginButton.addEventListener(
+      "click",
+      login
+    );
+
+    logoutButton.addEventListener(
+      "click",
+      logout
+    );
+
+
+    usernameInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          login();
+        }
+
+      }
+    );
+
+
+    passwordInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+          login();
+        }
+
+      }
+    );
+
+
+    /* =========================
+       CEK SESSION
+    ========================== */
+
+    const savedUser =
+      sessionStorage.getItem(
+        "KEYZO_user"
+      );
+
+
+    if (savedUser) {
+
+      showDashboard(savedUser);
+
+    } else {
+
+      showSplash();
+
+    }
 
   </script>
 
