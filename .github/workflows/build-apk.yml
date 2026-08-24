@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: "21"
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -39,23 +39,41 @@ jobs:
         run: npm install
 
       - name: Prepare web assets
+        shell: bash
         run: |
+          set -euo pipefail
           rm -rf www
           mkdir -p www/assets
           cp index.html www/index.html
-          if [ -d assets ]; then cp -R assets/. www/assets/; fi
-          sed -i 's#src="/assets/keyzo.png"#src="/assets/keyzo.jpg"#' www/index.html
-          printf '%s' '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' | base64 -d > www/assets/keyzo.jpg
+          if [ -d assets ]; then
+            cp -R assets/. www/assets/
+          fi
+          test -s www/index.html
+          echo "Web assets prepared successfully"
+          find www -maxdepth 2 -type f -print
 
       - name: Add Capacitor Android
-        run: npx cap add android
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -d android ]; then
+            npx cap add android
+          fi
 
       - name: Sync Capacitor
         run: npx cap sync android
 
       - name: Build APK
         working-directory: android
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --stacktrace --no-daemon
+
+      - name: Verify APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="android/app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          ls -lh "$APK"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
