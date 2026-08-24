@@ -38,6 +38,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Prepare web assets
+        run: |
+          rm -rf www
+          mkdir -p www
+          cp index.html www/index.html
+          if [ -d assets ]; then cp -R assets www/assets; fi
+
       - name: Add Capacitor Android
         run: npx cap add android
 
