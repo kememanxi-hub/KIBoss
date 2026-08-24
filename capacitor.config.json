@@ -1,5 +1,9 @@
 {
   "appId": "com.bosskeyzo.engine",
   "appName": "BOSS KEYZO",
-  "webDir": "www"
+  "webDir": "www",
+  "server": {
+    "url": "https://boss-keyzo-theta.vercel.app",
+    "cleartext": false
+  }
 }
