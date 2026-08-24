@@ -41,9 +41,12 @@ jobs:
       - name: Prepare web assets
         run: |
           rm -rf www
-          mkdir -p www
+          mkdir -p www/assets
           cp index.html www/index.html
-          if [ -d assets ]; then cp -R assets www/assets; fi
+          if [ -d assets ]; then cp -R assets/. www/assets/; fi
+          sed -i 's#src="/assets/keyzo.png"#src="/assets/keyzo.jpg"#' www/index.html
+          echo 'iVBORw0KGgoAAAANSUhEUgAAAyAAAAG0CAIAAABFetRDAAA' >/dev/null
+          printf '%s' 'REPLACE_KEYZO_IMAGE_BASE64' | base64 -d > www/assets/keyzo.jpg
 
       - name: Add Capacitor Android
         run: npx cap add android
